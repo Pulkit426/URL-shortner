@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const { connectToMongoDB } = require('./connect');
 const urlRoute = require('./routes/url');
 const URL = require('./models/url');
@@ -8,8 +9,15 @@ const PORT = process.env.PORT;
 
 connectToMongoDB();
 
+app.set('view engine', 'ejs');
+app.set('views', path.resolve('./views'));
+
 app.use(express.json());
 app.use('/url', urlRoute);
+
+app.get('/test', (req, res) => {
+  res.render('home');
+});
 
 app.get('/:shortId', async (req, res) => {
   const shortId = req.params.shortId;
