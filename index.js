@@ -1,9 +1,11 @@
 const express = require('express');
-
+const { connectToMongoDB } = require('./connect');
 const urlRoute = require('./routes/url');
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT;
+
+connectToMongoDB();
 
 app.use(express.json());
 app.use('/url', urlRoute);
