@@ -7,4 +7,20 @@ router.get('/', async (req, res) => {
 
   return res.render('home', { urls: allUrls });
 });
+
+router.get('/:shortId', async (req, res) => {
+  const shortId = req.params.shortId;
+
+  const resEntry = await URL.findOneAndUpdate(
+    { shortId },
+    {
+      $push: {
+        visitHistory: { timestamp: Date.now() },
+      },
+    }
+  );
+
+  res.redirect(resEntry?.redirectURL);
+});
+
 module.exports = router;
