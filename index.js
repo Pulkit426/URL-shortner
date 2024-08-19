@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { connectToMongoDB } = require('./connect');
+const staticRoute = require('./routes/staticRouter');
 const urlRoute = require('./routes/url');
 const URL = require('./models/url');
 
@@ -13,11 +14,10 @@ app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 
 app.use(express.json());
-app.use('/url', urlRoute);
+app.use(express.urlencoded({ extended: false }));
 
-app.get('/test', (req, res) => {
-  res.render('home');
-});
+app.use('/url', urlRoute);
+app.use('/', staticRoute);
 
 app.get('/:shortId', async (req, res) => {
   const shortId = req.params.shortId;
