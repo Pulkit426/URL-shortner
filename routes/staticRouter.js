@@ -8,6 +8,10 @@ router.get('/', async (req, res) => {
   return res.render('home', { urls: allUrls });
 });
 
+router.get('/signup', (req, res) => {
+  return res.render('signup');
+});
+
 router.get('/:shortId', async (req, res) => {
   const shortId = req.params.shortId;
 
