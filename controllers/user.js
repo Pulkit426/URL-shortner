@@ -1,13 +1,13 @@
 const User = require('../models/user');
+const { createToken } = require('../services/auth');
 
 async function handleUserSignUp(req, res) {
   const { name, email, password } = req.body;
 
   await User.create({ name, email, password });
-  return res.render('home', {
-    SignUpSuccessMessage: 'Succesfully Created Account',
-  });
+  return res.redirect('/');
 }
+
 async function handleUserLogin(req, res) {
   const { email, password } = req.body;
 
@@ -15,9 +15,9 @@ async function handleUserLogin(req, res) {
 
   if (!user) return res.render('login', { error: 'Invalid credentials' });
 
-  return res.render('home', {
-    SignUpSuccessMessage: 'Succesfully Logged In',
-  });
+  const token = createToken(user);
+  res.cookie('uuid', token);
+  return res.redirect('/');
 }
 
 module.exports = { handleUserSignUp, handleUserLogin };
