@@ -5,9 +5,19 @@ async function handleUserSignUp(req, res) {
 
   await User.create({ name, email, password });
   return res.render('home', {
-    sSignUpSuccessMessage: 'Succesfully Created Account',
+    SignUpSuccessMessage: 'Succesfully Created Account',
   });
 }
-async function handleUserSignIn() {}
+async function handleUserLogin(req, res) {
+  const { email, password } = req.body;
 
-module.exports = { handleUserSignUp, handleUserSignIn };
+  const user = await User.findOne({ email, password });
+
+  if (!user) return res.render('login', { error: 'Invalid credentials' });
+
+  return res.render('home', {
+    SignUpSuccessMessage: 'Succesfully Logged In',
+  });
+}
+
+module.exports = { handleUserSignUp, handleUserLogin };

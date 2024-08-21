@@ -12,6 +12,10 @@ router.get('/signup', (req, res) => {
   return res.render('signup');
 });
 
+router.get('/login', (req, res) => {
+  return res.render('login');
+});
+
 router.get('/:shortId', async (req, res) => {
   const shortId = req.params.shortId;
 
